@@ -3,152 +3,662 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SIN flight prices - SIA & Scoot</title>
+<title>Flight Prices — SIN → BKK / HKT / TPE</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
 <style>
-:root{color-scheme:light}
-*{box-sizing:border-box}
-body{font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#0f172a;background:transparent;margin:0;padding:16px}
-h1{font-size:18px;margin:0 0 4px}
-.sub{color:#64748b;font-size:12px;margin-bottom:16px}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin-bottom:16px}
-.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.dest{padding:12px;border-radius:8px;border:1px solid #e2e8f0}
-.dest .name{font-weight:600;font-size:13px;color:#475569}
-.dest .price{font-size:26px;font-weight:700;margin:4px 0}
-.dest .alt{font-size:13px;color:#475569;margin-top:8px;border-top:1px dashed #e2e8f0;padding-top:6px}
-.dest .stats{margin:6px 0 4px;font-size:11.5px;color:#475569;line-height:1.55}
-.dest .stats strong{color:#0f172a}
-.meta{font-size:11px;color:#64748b}
-.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
-.tabs{display:inline-flex;gap:4px;background:#f1f5f9;padding:3px;border-radius:8px;margin-bottom:12px}
-.tab{padding:6px 12px;border:0;background:transparent;border-radius:6px;font-size:12px;cursor:pointer;color:#475569}
-.tab.active{background:#fff;color:#0f172a;font-weight:600;box-shadow:0 1px 2px rgba(0,0,0,0.05)}
-.chartwrap{position:relative;height:320px}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th,td{text-align:left;padding:7px 6px;border-bottom:1px solid #f1f5f9}
-th{color:#64748b;font-weight:600}
-.empty{color:#64748b;padding:24px;text-align:center}
-.tag{display:inline-block;background:#f1f5f9;color:#475569;padding:2px 8px;border-radius:999px;font-size:11px;margin-left:6px}
+:root {
+  color-scheme: light;
+  --paper: #faf6ee;
+  --paper-edge: #f0e9da;
+  --ink: #1b1814;
+  --ink-soft: #4a4439;
+  --ink-faint: #8a8273;
+  --line: #ddd3bd;
+  --accent: #b8410c;
+  --accent-soft: #f6dcc8;
+  --bkk: #0f3460;
+  --hkt: #1f6f54;
+  --tpe: #7a1f3d;
+  --shadow: 0 1px 0 rgba(27,24,20,.04), 0 8px 24px -12px rgba(27,24,20,.18);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(184,65,12,.04), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(15,52,96,.04), transparent 40%);
+  color: var(--ink);
+  font-family: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, "Times New Roman", serif;
+  font-size: 15px;
+  line-height: 1.55;
+  padding: 28px 24px 64px;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+/* Typography */
+.eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+h1.masthead {
+  font-family: ui-serif, "Iowan Old Style", Georgia, serif;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  margin: 6px 0 6px;
+  color: var(--ink);
+}
+.deck {
+  font-family: ui-serif, Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink-soft);
+  max-width: 640px;
+  margin: 0 0 28px;
+}
+h2.section {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+h2.section .hint {
+  font-family: ui-serif, Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+/* Numbers */
+.num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
+
+/* KPI cards — the hero */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.kpi {
+  position: relative;
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 22px 22px 20px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--paper-edge);
+}
+.kpi::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--dest-color);
+}
+.kpi .place {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.kpi .place-name {
+  font-family: ui-serif, "Iowan Old Style", Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: var(--ink);
+}
+.kpi .place-iata {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  color: var(--ink-faint);
+  background: var(--paper);
+  padding: 3px 6px;
+  border-radius: 2px;
+}
+.kpi .place-country {
+  font-family: ui-serif, Georgia, serif;
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin-left: auto;
+}
+.kpi .lowest-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+}
+.kpi .lowest-price {
+  font-family: ui-serif, "Iowan Old Style", Georgia, serif;
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  margin: 2px 0 6px;
+}
+.kpi .lowest-price .cur {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-right: 4px;
+  vertical-align: top;
+  position: relative;
+  top: 6px;
+}
+.kpi .lowest-meta {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+.kpi .lowest-meta strong { color: var(--ink); font-weight: 700; }
+.kpi .kpi-foot {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+.kpi .kpi-foot .today-price {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.kpi.empty .lowest-price { color: var(--ink-faint); font-size: 32px; }
+.kpi.empty .lowest-meta { font-style: italic; color: var(--ink-faint); }
+
+/* Trend table beneath KPIs */
+.trend-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.trend-card {
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid var(--paper-edge);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+}
+.trend-card .tc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.trend-card .tc-place {
+  font-family: ui-serif, Georgia, serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -.005em;
+}
+.trend-card .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--dest-color);
+  display: inline-block;
+  margin-right: 8px;
+}
+.metric-row { margin-bottom: 14px; }
+.metric-row:last-child { margin-bottom: 0; }
+.metric-row .ml {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+}
+.metric-row .mp {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+.metric-row .mp .cur { font-size: 12px; color: var(--ink-soft); font-weight: 500; margin-right: 2px; position: relative; top: -1px; }
+.metric-row .mp.empty { color: var(--ink-faint); font-style: italic; font-size: 14px; font-weight: 400; }
+.metric-row .stats {
+  margin-top: 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.metric-row .stats > div { display: flex; justify-content: space-between; gap: 6px; }
+.metric-row .stats span:last-child { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.trend-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 7px; border-radius: 999px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.trend-badge.up   { background: #fde8e0; color: #b8410c; }
+.trend-badge.down { background: #dceedc; color: #1f6f54; }
+.trend-badge.flat { background: var(--paper-edge); color: var(--ink-faint); }
+.trend-badge.first { background: var(--accent-soft); color: var(--accent); }
+.delta-up   { color: #b8410c; }
+.delta-down { color: #1f6f54; }
+.delta-flat { color: var(--ink-soft); }
+.note-tag {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  color: var(--ink-faint);
+  font-style: italic;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Chart */
+.chart-wrap {
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid var(--paper-edge);
+  padding: 20px 22px 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 32px;
+}
+.chart-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.tabs { display: inline-flex; background: var(--paper); border-radius: 999px; padding: 3px; }
+.tab {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border: 0; background: transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  transition: color .15s, background .15s;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { background: var(--ink); color: var(--paper); }
+.chartwrap { position: relative; height: 320px; }
+.empty {
+  color: var(--ink-faint);
+  font-style: italic;
+  padding: 40px;
+  text-align: center;
+}
+
+/* History */
+details.history {
+  background: #fff;
+  border: 1px solid var(--paper-edge);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  padding: 0;
+  overflow: hidden;
+}
+details.history > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 18px;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 13px;
+  letter-spacing: -.005em;
+  color: var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+details.history > summary::-webkit-details-marker { display: none; }
+details.history > summary::after {
+  content: "expand";
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+details.history[open] > summary::after { content: "collapse"; }
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11.5px;
+}
+.tbl th, .tbl td {
+  padding: 9px 14px;
+  text-align: left;
+  border-top: 1px solid var(--line);
+}
+.tbl th {
+  background: var(--paper);
+  color: var(--ink-faint);
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+.tbl td.num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
+.tbl tr:hover td { background: rgba(184,65,12,.025); }
+
+/* Footer ribbon */
+.ribbon {
+  margin: 28px 0 0;
+  padding: 14px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  letter-spacing: .04em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ribbon a { color: var(--accent-soft); text-decoration: none; border-bottom: 1px dotted var(--accent-soft); }
+.ribbon a:hover { color: #fff; }
+
+/* Mobile */
+@media (max-width: 720px) {
+  body { padding: 20px 16px 48px; }
+  h1.masthead { font-size: 26px; }
+  .kpis, .trend-grid { grid-template-columns: 1fr; }
+  .chart-controls { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+
+/* Staggered entrance */
+.kpi, .trend-card, .chart-wrap, details.history, .ribbon { opacity: 0; animation: rise .6s cubic-bezier(.16,.84,.44,1) forwards; }
+.kpi:nth-child(1) { animation-delay: .05s; }
+.kpi:nth-child(2) { animation-delay: .12s; }
+.kpi:nth-child(3) { animation-delay: .19s; }
+.trend-card:nth-child(1) { animation-delay: .26s; }
+.trend-card:nth-child(2) { animation-delay: .31s; }
+.trend-card:nth-child(3) { animation-delay: .36s; }
+.chart-wrap { animation-delay: .42s; }
+details.history { animation-delay: .5s; }
+.ribbon { animation-delay: .58s; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; }
+  .kpi, .trend-card, .chart-wrap, details.history, .ribbon { opacity: 1; }
+}
 </style>
 </head>
 <body>
-<h1>SIN flight prices &mdash; SIA &amp; Scoot</h1>
-<div class="sub">Daily snapshot of Trip.com&rsquo;s lowest published fares to Bangkok, Phuket, Taipei. Round-trip filter: June 2026 dep, 3-5 night stay.</div>
 
-<div class="card">
-  <div class="summary" id="summary"></div>
-</div>
+<header>
+  <div class="eyebrow">Daily Briefing · SIA &amp; Scoot · Trip.com</div>
+  <h1 class="masthead">Singapore &mdash; bound for warmer skies</h1>
+  <p class="deck">A daily ledger of the cheapest published fares from Changi to Bangkok, Phuket and Taipei. Round-trip filter: June&nbsp;2026 departure, three to five nights away.</p>
+</header>
 
-<div class="card">
-  <div class="tabs">
-    <button class="tab active" data-metric="one_way_june">One-way June</button>
-    <button class="tab" data-metric="round_trip_june">Round-trip (3-5n)</button>
+<h2 class="section">Lowest fare seen <span class="hint">since tracking began</span></h2>
+<section class="kpis" id="kpis"></section>
+
+<h2 class="section">Today&rsquo;s snapshot <span class="hint" id="snapshot-date"></span></h2>
+<section class="trend-grid" id="trends"></section>
+
+<h2 class="section">Price trajectory <span class="hint">SGD over time</span></h2>
+<div class="chart-wrap">
+  <div class="chart-controls">
+    <div class="tabs">
+      <button class="tab active" data-metric="one_way_june">One-way June</button>
+      <button class="tab" data-metric="round_trip_june">Round-trip · 3-5 nights</button>
+    </div>
+    <div class="eyebrow" id="chart-meta"></div>
   </div>
   <div class="chartwrap"><canvas id="trend"></canvas></div>
 </div>
 
-<div class="card">
-  <h3 style="margin:0 0 8px;font-size:14px">All snapshots</h3>
-  <div id="history"></div>
+<details class="history">
+  <summary>Every snapshot recorded · <span id="row-count"></span> entries</summary>
+  <div id="history-body"></div>
+</details>
+
+<div class="ribbon">
+  <span>Compiled daily at 08:00 SGT</span>
+  <span>Source: <a href="https://sg.trip.com" target="_blank" rel="noopener">Trip.com</a></span>
 </div>
 
 <script>
-const PAYLOAD = {"labels": ["2026-06-02"], "metrics": {"one_way_june": [{"label": "Bangkok", "dest": "BKK", "data": [null], "borderColor": "#2563eb", "backgroundColor": "#2563eb33", "tension": 0.25, "spanGaps": true, "pointRadius": 4}, {"label": "Phuket", "dest": "HKT", "data": [104], "borderColor": "#16a34a", "backgroundColor": "#16a34a33", "tension": 0.25, "spanGaps": true, "pointRadius": 4}, {"label": "Taipei", "dest": "TPE", "data": [175], "borderColor": "#dc2626", "backgroundColor": "#dc262633", "tension": 0.25, "spanGaps": true, "pointRadius": 4}], "round_trip_june": [{"label": "Bangkok", "dest": "BKK", "data": [157], "borderColor": "#2563eb", "backgroundColor": "#2563eb33", "tension": 0.25, "spanGaps": true, "pointRadius": 4}, {"label": "Phuket", "dest": "HKT", "data": [194], "borderColor": "#16a34a", "backgroundColor": "#16a34a33", "tension": 0.25, "spanGaps": true, "pointRadius": 4}, {"label": "Taipei", "dest": "TPE", "data": [253], "borderColor": "#dc2626", "backgroundColor": "#dc262633", "tension": 0.25, "spanGaps": true, "pointRadius": 4}]}, "latest": {"round_trip_june|BKK": {"snapshot_date": "2026-06-02", "dest": "BKK", "metric": "round_trip_june", "price_sgd": "157", "dep_date": "2026-05-06", "ret_date": "2026-05-08", "airline_out": "Thai Lion Air", "airline_in": "Thai Lion Air", "note": "fallback_headline_any_airline"}, "one_way_june|HKT": {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "one_way_june", "price_sgd": "104", "dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "round_trip_june|HKT": {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "round_trip_june", "price_sgd": "194", "dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, "one_way_june|TPE": {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "one_way_june", "price_sgd": "175", "dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "round_trip_june|TPE": {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "round_trip_june", "price_sgd": "253", "dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}}, "rows": [{"snapshot_date": "2026-06-02", "dest": "BKK", "metric": "round_trip_june", "price_sgd": "157", "dep_date": "2026-05-06", "ret_date": "2026-05-08", "airline_out": "Thai Lion Air", "airline_in": "Thai Lion Air", "note": "fallback_headline_any_airline"}, {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "one_way_june", "price_sgd": "104", "dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "round_trip_june", "price_sgd": "194", "dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "one_way_june", "price_sgd": "175", "dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "round_trip_june", "price_sgd": "253", "dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}], "stats": {"BKK": {"round_trip_june": {"latest_price": 157, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-05-06", "ret_date": "2026-05-08", "airline_out": "Thai Lion Air", "airline_in": "Thai Lion Air", "note": "fallback_headline_any_airline"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 157, "delta_vs_7d_pct": 0.0, "lowest_so_far": 157, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}, "HKT": {"one_way_june": {"latest_price": 104, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 104, "delta_vs_7d_pct": 0.0, "lowest_so_far": 104, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}, "round_trip_june": {"latest_price": 194, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 194, "delta_vs_7d_pct": 0.0, "lowest_so_far": 194, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}, "TPE": {"one_way_june": {"latest_price": 175, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 175, "delta_vs_7d_pct": 0.0, "lowest_so_far": 175, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}, "round_trip_june": {"latest_price": 253, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 253, "delta_vs_7d_pct": 0.0, "lowest_so_far": 253, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}}};
-const DEST_LABEL = {"BKK":"Bangkok","HKT":"Phuket","TPE":"Taipei"};
-const COLOR = {"BKK":"#2563eb","HKT":"#16a34a","TPE":"#dc2626"};
+const PAYLOAD = {"labels": ["2026-06-02"], "metrics": {"one_way_june": [{"label": "Bangkok", "dest": "BKK", "data": [null], "borderColor": "#0f3460", "backgroundColor": "#0f34601a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#0f3460", "borderWidth": 2}, {"label": "Phuket", "dest": "HKT", "data": [104], "borderColor": "#1f6f54", "backgroundColor": "#1f6f541a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#1f6f54", "borderWidth": 2}, {"label": "Taipei", "dest": "TPE", "data": [175], "borderColor": "#7a1f3d", "backgroundColor": "#7a1f3d1a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#7a1f3d", "borderWidth": 2}], "round_trip_june": [{"label": "Bangkok", "dest": "BKK", "data": [157], "borderColor": "#0f3460", "backgroundColor": "#0f34601a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#0f3460", "borderWidth": 2}, {"label": "Phuket", "dest": "HKT", "data": [194], "borderColor": "#1f6f54", "backgroundColor": "#1f6f541a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#1f6f54", "borderWidth": 2}, {"label": "Taipei", "dest": "TPE", "data": [253], "borderColor": "#7a1f3d", "backgroundColor": "#7a1f3d1a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#7a1f3d", "borderWidth": 2}]}, "latest": {"round_trip_june|BKK": {"snapshot_date": "2026-06-02", "dest": "BKK", "metric": "round_trip_june", "price_sgd": "157", "dep_date": "2026-05-06", "ret_date": "2026-05-08", "airline_out": "Thai Lion Air", "airline_in": "Thai Lion Air", "note": "fallback_headline_any_airline"}, "one_way_june|HKT": {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "one_way_june", "price_sgd": "104", "dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "round_trip_june|HKT": {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "round_trip_june", "price_sgd": "194", "dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, "one_way_june|TPE": {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "one_way_june", "price_sgd": "175", "dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "round_trip_june|TPE": {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "round_trip_june", "price_sgd": "253", "dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}}, "rows": [{"snapshot_date": "2026-06-02", "dest": "BKK", "metric": "round_trip_june", "price_sgd": "157", "dep_date": "2026-05-06", "ret_date": "2026-05-08", "airline_out": "Thai Lion Air", "airline_in": "Thai Lion Air", "note": "fallback_headline_any_airline"}, {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "one_way_june", "price_sgd": "104", "dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "round_trip_june", "price_sgd": "194", "dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "one_way_june", "price_sgd": "175", "dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "round_trip_june", "price_sgd": "253", "dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}], "stats": {"BKK": {"round_trip_june": {"latest_price": 157, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-05-06", "ret_date": "2026-05-08", "airline_out": "Thai Lion Air", "airline_in": "Thai Lion Air", "note": "fallback_headline_any_airline"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 157, "delta_vs_7d_pct": 0.0, "lowest_so_far": 157, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}, "HKT": {"one_way_june": {"latest_price": 104, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 104, "delta_vs_7d_pct": 0.0, "lowest_so_far": 104, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}, "round_trip_june": {"latest_price": 194, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 194, "delta_vs_7d_pct": 0.0, "lowest_so_far": 194, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}, "TPE": {"one_way_june": {"latest_price": 175, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 175, "delta_vs_7d_pct": 0.0, "lowest_so_far": 175, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}, "round_trip_june": {"latest_price": 253, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 253, "delta_vs_7d_pct": 0.0, "lowest_so_far": 253, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}}};
+const DEST_LABEL  = {"BKK":"Bangkok","HKT":"Phuket","TPE":"Taipei"};
+const DEST_SUB    = {"BKK":"Thailand","HKT":"Thailand","TPE":"Taiwan"};
+const COLOR_VAR   = {"BKK":"var(--bkk)","HKT":"var(--hkt)","TPE":"var(--tpe)"};
+const COLOR_HEX   = {"BKK":"#0f3460","HKT":"#1f6f54","TPE":"#7a1f3d"};
 
-let activeMetric = "one_way_june";
-let chart;
-
-function fmtPct(p) {
-  if (p == null) return 'n/a';
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00Z');
+  const m = d.toLocaleString('en-GB', { month:'short', timeZone:'UTC' });
+  return `${d.getUTCDate()} ${m}`;
+}
+function fmtDeltaPct(p) {
+  if (p == null) return { text:'—', cls:'delta-flat' };
+  if (Math.abs(p) < 0.5) return { text:'flat', cls:'delta-flat' };
   const sign = p > 0 ? '+' : '';
-  return `${sign}${p}%`;
+  const cls = p > 0 ? 'delta-up' : 'delta-down';
+  return { text: `${sign}${p}%`, cls };
 }
-function trendBadge(s) {
+function trendBadgeHtml(s) {
   if (!s) return '';
-  const map = { down: ['#16a34a','↓ down'], up: ['#dc2626','↑ up'], flat: ['#64748b','→ flat'] };
-  const [c, label] = map[s.trend_recent] || map.flat;
-  return `<span class="tag" style="background:${c}1a;color:${c}">${label}</span>`;
+  if (s.snapshots <= 1) return `<span class="trend-badge first">first day</span>`;
+  const map = { down: ['down', '↓ falling'], up: ['up', '↑ rising'], flat: ['flat', '→ steady'] };
+  const [cls, label] = map[s.trend_recent] || map.flat;
+  return `<span class="trend-badge ${cls}">${label}</span>`;
 }
-function renderSummary() {
-  const root = document.getElementById('summary');
-  root.innerHTML = '';
+
+// ---- KPI cards (lowest seen) ----
+function renderKPIs() {
+  const el = document.getElementById('kpis');
+  el.innerHTML = '';
   ['BKK','HKT','TPE'].forEach(code => {
-    const ow = PAYLOAD.latest['one_way_june|' + code];
-    const rt = PAYLOAD.latest['round_trip_june|' + code];
-    const ows = (PAYLOAD.stats[code] || {}).one_way_june;
-    const rts = (PAYLOAD.stats[code] || {}).round_trip_june;
+    const s = (PAYLOAD.stats[code] || {});
+    // Prefer round-trip; if missing, use one-way
+    const pick = s.round_trip_june || s.one_way_june;
+    const isRT = !!s.round_trip_june;
     const div = document.createElement('div');
-    div.className = 'dest';
-    div.innerHTML = `
-      <div class="name"><span class="dot" style="background:${COLOR[code]}"></span>${DEST_LABEL[code]} (${code})</div>
-      ${ow ? `
-        <div class="price">S$${ow.price_sgd} ${trendBadge(ows)}</div>
-        <div class="meta">one-way June &middot; ${ow.airline_out}${ow.dep_date ? ' &middot; dep ' + ow.dep_date : ''}</div>
-        ${ows ? `<div class="stats">
-          <div>vs prior day: <strong>${fmtPct(ows.delta_day_pct)}</strong></div>
-          <div>vs 7-day avg (S$${ows.avg_7d != null ? Math.round(ows.avg_7d) : 'n/a'}): <strong>${fmtPct(ows.delta_vs_7d_pct)}</strong></div>
-          <div>lowest seen: <strong>S$${ows.lowest_so_far}</strong> on ${ows.lowest_date}</div>
-        </div>` : ''}
-        <div class="meta">snapshot ${ow.snapshot_date}${ow.note && ow.note.startsWith('fallback') ? ' <span class="tag">' + ow.note + '</span>' : ''}</div>
-      ` : '<div class="price">--</div><div class="meta">no one-way data</div>'}
-      ${rt ? `
-        <div class="alt">
-          <div><strong>S$${rt.price_sgd}</strong> round-trip ${trendBadge(rts)}</div>
-          <div class="meta">${rt.airline_out === rt.airline_in ? rt.airline_out : (rt.airline_out + ' / ' + rt.airline_in)} &middot; ${rt.dep_date} &rarr; ${rt.ret_date}</div>
-          ${rts ? `<div class="stats">
-            <div>vs prior day: <strong>${fmtPct(rts.delta_day_pct)}</strong></div>
-            <div>vs 7-day avg (S$${rts.avg_7d != null ? Math.round(rts.avg_7d) : 'n/a'}): <strong>${fmtPct(rts.delta_vs_7d_pct)}</strong></div>
-            <div>lowest seen: <strong>S$${rts.lowest_so_far}</strong> on ${rts.lowest_date}</div>
-          </div>` : ''}
-          <div class="meta">${rt.note && rt.note.startsWith('fallback') ? '<span class="tag">' + rt.note + '</span>' : ''}</div>
-        </div>` : '<div class="alt"><div class="meta">no round-trip match yet</div></div>'}
-    `;
-    root.appendChild(div);
+    div.className = 'kpi' + (pick ? '' : ' empty');
+    div.style.setProperty('--dest-color', COLOR_VAR[code]);
+    if (!pick) {
+      div.innerHTML = `
+        <div class="place">
+          <span class="place-name">${DEST_LABEL[code]}</span>
+          <span class="place-iata">${code}</span>
+          <span class="place-country">${DEST_SUB[code]}</span>
+        </div>
+        <div class="lowest-label">Lowest seen</div>
+        <div class="lowest-price">—</div>
+        <div class="lowest-meta">No data yet · first snapshot pending</div>
+      `;
+    } else {
+      const m = pick.latest_meta || {};
+      const who = (m.airline_in && m.airline_in !== m.airline_out)
+        ? `${m.airline_out} / ${m.airline_in}` : (m.airline_out || '');
+      const dates = m.ret_date ? `${fmtDate(m.dep_date)} → ${fmtDate(m.ret_date)}` : fmtDate(m.dep_date);
+      const today = pick.latest_price;
+      const todayDelta = fmtDeltaPct(pick.delta_day_pct);
+      div.innerHTML = `
+        <div class="place">
+          <span class="place-name">${DEST_LABEL[code]}</span>
+          <span class="place-iata">${code}</span>
+          <span class="place-country">${DEST_SUB[code]}</span>
+        </div>
+        <div class="lowest-label">Lowest ${isRT ? 'round-trip' : 'one-way'} seen</div>
+        <div class="lowest-price num"><span class="cur">S$</span>${pick.lowest_so_far}</div>
+        <div class="lowest-meta">on <strong>${fmtDate(pick.lowest_date)}</strong> · ${who || '—'}${dates ? ' · ' + dates : ''}</div>
+        <div class="kpi-foot">
+          <span>Today: <span class="today-price">S$${today}</span></span>
+          <span class="${todayDelta.cls}">${todayDelta.text} d/d</span>
+        </div>
+      `;
+    }
+    el.appendChild(div);
   });
 }
 
+// ---- Trend cards (one card per destination, both metrics) ----
+function renderTrends() {
+  const el = document.getElementById('trends');
+  el.innerHTML = '';
+
+  // Find the most recent snapshot date across all rows for header
+  const latestDate = PAYLOAD.labels.length ? PAYLOAD.labels[PAYLOAD.labels.length - 1] : '';
+  document.getElementById('snapshot-date').textContent = latestDate ? fmtDate(latestDate) : '';
+
+  ['BKK','HKT','TPE'].forEach(code => {
+    const s = PAYLOAD.stats[code] || {};
+    const ow = s.one_way_june;
+    const rt = s.round_trip_june;
+
+    const block = document.createElement('div');
+    block.className = 'trend-card';
+    block.style.setProperty('--dest-color', COLOR_VAR[code]);
+    block.innerHTML = `
+      <div class="tc-head">
+        <div class="tc-place"><span class="dot"></span>${DEST_LABEL[code]} <span style="color:var(--ink-faint);font-weight:400;font-family:ui-monospace,monospace;font-size:10px;margin-left:4px;letter-spacing:.14em">${code}</span></div>
+      </div>
+      ${metricBlockHtml('One-way June', ow)}
+      ${metricBlockHtml('Round-trip June · 3-5 nights', rt)}
+    `;
+    el.appendChild(block);
+  });
+}
+
+function metricBlockHtml(label, s) {
+  if (!s) {
+    return `<div class="metric-row">
+      <div class="ml">${label}</div>
+      <div class="mp empty">no match yet</div>
+    </div>`;
+  }
+  const dd = fmtDeltaPct(s.delta_day_pct);
+  const av = fmtDeltaPct(s.delta_vs_7d_pct);
+  const m = s.latest_meta || {};
+  const note = (m.note || '').startsWith('fallback') ? `<span class="note-tag">${m.note.replace(/_/g,' ')}</span>` : '';
+  return `<div class="metric-row">
+    <div class="ml">${label}</div>
+    <div class="mp num"><span class="cur">S$</span>${s.latest_price}${trendBadgeHtml(s)}</div>
+    <div class="stats">
+      <div><span>vs yesterday</span><span class="${dd.cls}">${dd.text}</span></div>
+      <div><span>vs 7-day avg</span><span class="${av.cls}">${av.text}</span></div>
+      <div><span>7-day avg</span><span>S$${s.avg_7d != null ? Math.round(s.avg_7d) : '—'}</span></div>
+      <div><span>seen since</span><span>${s.snapshots}d</span></div>
+    </div>
+    ${note}
+  </div>`;
+}
+
+// ---- Chart ----
+let chart;
+let activeMetric = 'one_way_june';
 function renderChart() {
-  const datasets = PAYLOAD.metrics[activeMetric] || [];
+  const datasets = (PAYLOAD.metrics[activeMetric] || []).map(ds => ({
+    ...ds,
+    borderColor: COLOR_HEX[ds.dest],
+    backgroundColor: COLOR_HEX[ds.dest] + '1a',
+    pointBackgroundColor: COLOR_HEX[ds.dest],
+  }));
   const ctx = document.getElementById('trend');
-  if (PAYLOAD.labels.length === 0 || datasets.every(d => d.data.every(v => v == null))) {
-    ctx.parentElement.innerHTML = '<div class="empty">No daily snapshots yet for this metric. The scheduled task populates this each morning.</div>';
+  const meta = document.getElementById('chart-meta');
+
+  if (!PAYLOAD.labels.length || datasets.every(d => d.data.every(v => v == null))) {
+    ctx.parentElement.innerHTML = '<div class="empty">First snapshot pending — chart will populate after tomorrow morning&rsquo;s run.</div>';
+    meta.textContent = '';
     return;
   }
+  meta.textContent = `${PAYLOAD.labels.length} snapshot${PAYLOAD.labels.length===1?'':'s'} · ${PAYLOAD.labels[0]} → ${PAYLOAD.labels[PAYLOAD.labels.length-1]}`;
+
   if (chart) chart.destroy();
+  Chart.defaults.font.family = "ui-monospace, 'SF Mono', Menlo, Monaco, monospace";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = "#4a4439";
   chart = new Chart(ctx, {
     type: 'line',
-    data: { labels: PAYLOAD.labels, datasets: datasets },
+    data: { labels: PAYLOAD.labels, datasets },
     options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'bottom' } },
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { boxWidth: 8, boxHeight: 8, usePointStyle: true, padding: 16, font: { size: 11 } }
+        },
+        tooltip: {
+          backgroundColor: '#1b1814', titleColor: '#faf6ee', bodyColor: '#faf6ee',
+          padding: 10, cornerRadius: 4, displayColors: true, boxPadding: 4,
+          callbacks: { label: (c) => `${c.dataset.label}: S$${c.parsed.y}` }
+        }
+      },
       scales: {
-        x: { title: { display: true, text: 'Snapshot date' } },
-        y: { title: { display: true, text: 'SGD' }, beginAtZero: false }
+        x: { grid: { color: '#ddd3bd', drawBorder: false }, ticks: { color: '#8a8273' } },
+        y: { grid: { color: '#ddd3bd', drawBorder: false }, ticks: { color: '#8a8273', callback: v => 'S$' + v }, beginAtZero: false }
       }
     }
   });
 }
 
+// ---- History table ----
 function renderHistory() {
-  const rows = (PAYLOAD.rows || []).slice().sort((a,b) => b.snapshot_date.localeCompare(a.snapshot_date) || a.dest.localeCompare(b.dest) || a.metric.localeCompare(b.metric));
-  const root = document.getElementById('history');
-  if (rows.length === 0) { root.innerHTML = '<div class="empty">History will appear after the first scrape runs.</div>'; return; }
-  const headers = ['Snapshot','Dest','Metric','SGD','Dep','Ret','Out airline','Return airline','Note'];
-  let html = '<table><thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+  const rows = (PAYLOAD.rows || []).slice().sort(
+    (a,b) => b.snapshot_date.localeCompare(a.snapshot_date) || a.dest.localeCompare(b.dest) || a.metric.localeCompare(b.metric)
+  );
+  document.getElementById('row-count').textContent = rows.length;
+  const root = document.getElementById('history-body');
+  if (!rows.length) { root.innerHTML = '<div class="empty">History will appear after the first scrape runs.</div>'; return; }
+  let html = `<table class="tbl"><thead><tr>
+    <th>Date</th><th>Route</th><th>Metric</th><th>SGD</th>
+    <th>Depart</th><th>Return</th><th>Airline</th><th>Note</th>
+  </tr></thead><tbody>`;
   for (const r of rows) {
     html += `<tr>
       <td>${r.snapshot_date}</td>
       <td>${DEST_LABEL[r.dest] || r.dest}</td>
-      <td>${r.metric.replace('_',' ')}</td>
-      <td><strong>S$${r.price_sgd}</strong></td>
-      <td>${r.dep_date || ''}</td>
-      <td>${r.ret_date || ''}</td>
-      <td>${r.airline_out || ''}</td>
-      <td>${r.airline_in || ''}</td>
-      <td>${r.note || ''}</td>
+      <td>${r.metric.replace(/_/g,' ')}</td>
+      <td class="num">S$${r.price_sgd}</td>
+      <td>${r.dep_date || '—'}</td>
+      <td>${r.ret_date || '—'}</td>
+      <td>${(r.airline_out === r.airline_in || !r.airline_in) ? (r.airline_out || '—') : (r.airline_out + ' / ' + r.airline_in)}</td>
+      <td>${(r.note || '').replace(/_/g,' ')}</td>
     </tr>`;
   }
   html += '</tbody></table>';
@@ -164,7 +674,8 @@ document.querySelectorAll('.tab').forEach(btn => {
   });
 });
 
-renderSummary();
+renderKPIs();
+renderTrends();
 renderChart();
 renderHistory();
 </script>
