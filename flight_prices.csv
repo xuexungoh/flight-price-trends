@@ -1,0 +1,6 @@
+snapshot_date,dest,metric,price_sgd,dep_date,ret_date,airline_out,airline_in,note
+2026-06-02,BKK,round_trip_june,157,2026-05-06,2026-05-08,Thai Lion Air,Thai Lion Air,fallback_headline_any_airline
+2026-06-02,HKT,one_way_june,104,2026-06-28,,Scoot,,sia_scoot
+2026-06-02,HKT,round_trip_june,194,2026-06-28,2026-07-02,Scoot,Scoot,june_3to5n_sia_scoot
+2026-06-02,TPE,one_way_june,175,2026-06-02,,Scoot,,sia_scoot
+2026-06-02,TPE,round_trip_june,253,2026-05-19,2026-05-22,Scoot,Scoot,fallback_any_month_sia_scoot

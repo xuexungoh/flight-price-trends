@@ -1,0 +1,7 @@
+.vercel
+.vercel-token
+.github-token
+.DS_Store
+tmp/
+__pycache__/
+*.pyc
