@@ -1,22 +1,29 @@
 """
 Reads three Trip.com markdown text files and appends today's price snapshot
-to flight_prices.csv. STRICT FILTER — only Singapore Airlines and Scoot fares
-are recorded. If neither carrier shows a matching fare for a route on a given
-day, the row is simply omitted (no fallback to other carriers).
+to flight_prices.csv. For each (destination, metric) we record up to TWO rows:
 
-Metrics per destination per day:
+    category = priority  → cheapest fare on Singapore Airlines or Scoot
+    category = reference → cheapest fare across ALL airlines on the page
 
-    one_way_june    = cheapest June 2026 one-way fare on SIA/Scoot
+If a category has no matching deal that day, that row is simply omitted.
+The headline ("priority") is the one we recommend the user track; "reference"
+is for context — what other carriers are offering.
+
+Metrics:
+    one_way_june    = cheapest June 2026 one-way fare
                       (from Trip.com's "Month: From S$ X" monthly summary)
-    round_trip_june = cheapest SIA/Scoot round-trip card, June departure,
-                      return 3-5 days later. Fallback within SIA/Scoot only:
-                      relaxes the month + stay-length filter, never the airline.
+    round_trip_june = cheapest June-departing round-trip with 3-5 night stay.
+                      Within priority (SIA/Scoot) we fall back to any-month
+                      SIA/Scoot RT if no June 3-5n match is visible; reference
+                      always pulls the cheapest visible all-airline match
+                      (June 3-5n preferred, any-RT otherwise).
 
 Usage:
     python update_csv.py <bkk.md> <hkt.md> <tpe.md>
 
 CSV columns:
-    snapshot_date,dest,metric,price_sgd,dep_date,ret_date,airline_out,airline_in,note
+    snapshot_date,dest,metric,category,price_sgd,
+    dep_date,ret_date,airline_out,airline_in,note
 """
 import csv
 import json
@@ -31,7 +38,7 @@ CSV_PATH = os.path.join(ROOT, "flight_prices.csv")
 ROUTES = [("BKK", "Bangkok"), ("HKT", "Phuket"), ("TPE", "Taipei")]
 
 HEADER = [
-    "snapshot_date", "dest", "metric", "price_sgd",
+    "snapshot_date", "dest", "metric", "category", "price_sgd",
     "dep_date", "ret_date", "airline_out", "airline_in", "note",
 ]
 
@@ -47,34 +54,23 @@ def append_row(path: str, row: dict) -> None:
         csv.writer(f).writerow([row.get(k, "") for k in HEADER])
 
 
-def build_one_way_row(date_str: str, dest: str, summary: dict) -> dict | None:
-    """SIA/Scoot only, June only. No fallback to other carriers."""
-    best = summary["cheapest_one_way_june_sia_scoot"]
-    if not best:
-        return None
+def _one_way_row(date_str: str, dest: str, best: dict, category: str) -> dict:
     return {
         "snapshot_date": date_str, "dest": dest, "metric": "one_way_june",
+        "category": category,
         "price_sgd": best["price_sgd"],
         "dep_date": best.get("dep_date") or "",
         "ret_date": "",
         "airline_out": best["airline"],
         "airline_in": "",
-        "note": "sia_scoot",
+        "note": "sia_scoot" if category == "priority" else "any_airline",
     }
 
 
-def build_round_trip_row(date_str: str, dest: str, summary: dict) -> dict | None:
-    """SIA/Scoot only. Prefer June 3-5 night; fallback to any SIA/Scoot RT
-    (still strictly SIA/Scoot — never other carriers)."""
-    best = summary["cheapest_rt_june_3to5n_sia_scoot"]
-    note = "june_3to5n_sia_scoot"
-    if not best:
-        best = summary["cheapest_rt_any_sia_scoot"]
-        note = "fallback_any_month_sia_scoot"
-    if not best:
-        return None
+def _rt_row(date_str: str, dest: str, best: dict, category: str, note: str) -> dict:
     return {
         "snapshot_date": date_str, "dest": dest, "metric": "round_trip_june",
+        "category": category,
         "price_sgd": best["price_sgd"],
         "dep_date": best["dep_date"],
         "ret_date": best["ret_date"],
@@ -82,6 +78,42 @@ def build_round_trip_row(date_str: str, dest: str, summary: dict) -> dict | None
         "airline_in": best["airline_in"],
         "note": note,
     }
+
+
+def rows_for_route(date_str: str, dest: str, summary: dict) -> list[dict]:
+    out: list[dict] = []
+
+    # --- One-way June ---
+    pri_ow = summary["cheapest_one_way_june_sia_scoot"]
+    if pri_ow:
+        out.append(_one_way_row(date_str, dest, pri_ow, "priority"))
+    ref_ow = summary["cheapest_one_way_june_any"]
+    # Only emit reference if it actually differs from priority (avoids dup rows)
+    if ref_ow and (not pri_ow or ref_ow["airline"] != pri_ow["airline"] or ref_ow["price_sgd"] != pri_ow["price_sgd"]):
+        out.append(_one_way_row(date_str, dest, ref_ow, "reference"))
+
+    # --- Round-trip June ---
+    pri_rt = summary["cheapest_rt_june_3to5n_sia_scoot"]
+    pri_note = "june_3to5n_sia_scoot"
+    if not pri_rt:
+        pri_rt = summary["cheapest_rt_any_sia_scoot"]
+        pri_note = "fallback_any_month_sia_scoot"
+    if pri_rt:
+        out.append(_rt_row(date_str, dest, pri_rt, "priority", pri_note))
+
+    ref_rt = summary["cheapest_rt_june_3to5n_any"]
+    ref_note = "june_3to5n_any_airline"
+    if not ref_rt:
+        ref_rt = summary["cheapest_rt_any_any"]
+        ref_note = "fallback_any_airline"
+    if ref_rt and (not pri_rt or _rt_key(ref_rt) != _rt_key(pri_rt)):
+        out.append(_rt_row(date_str, dest, ref_rt, "reference", ref_note))
+
+    return out
+
+
+def _rt_key(d: dict) -> tuple:
+    return (d["dep_date"], d["ret_date"], d["airline_out"], d["airline_in"], d["price_sgd"])
 
 
 def main() -> None:
@@ -101,14 +133,12 @@ def main() -> None:
             print(f"# skip {code}: file not found {path}", file=sys.stderr)
             continue
         if len(text) < 1000:
-            print(f"# skip {code}: file too small ({len(text)} bytes) — likely failed fetch", file=sys.stderr)
+            print(f"# skip {code}: file too small ({len(text)} bytes)", file=sys.stderr)
             continue
         summary = summarize(text, code)
-        for builder in (build_one_way_row, build_round_trip_row):
-            row = builder(today, code, summary)
-            if row:
-                append_row(CSV_PATH, row)
-                summary_out.append(row)
+        for row in rows_for_route(today, code, summary):
+            append_row(CSV_PATH, row)
+            summary_out.append(row)
     print(json.dumps(summary_out, indent=2))
 
 

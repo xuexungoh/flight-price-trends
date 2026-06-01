@@ -179,6 +179,31 @@ def best_round_trip_relaxed(deals: list[dict]) -> Optional[dict]:
     return best
 
 
+def best_round_trip_june_3to5n_any(deals: list[dict]) -> Optional[dict]:
+    """Cheapest June 3-5n round-trip across ALL airlines (reference signal)."""
+    best = None
+    for d in deals:
+        if not d["dep_date"] or not d["ret_date"]:
+            continue
+        dep = date.fromisoformat(d["dep_date"])
+        ret = date.fromisoformat(d["ret_date"])
+        if dep.month != TARGET_MONTH:
+            continue
+        stay = (ret - dep).days
+        if not (3 <= stay <= 5):
+            continue
+        if best is None or d["price_sgd"] < best["price_sgd"]:
+            best = d
+    return best
+
+
+def best_round_trip_any(deals: list[dict]) -> Optional[dict]:
+    """Cheapest visible round-trip across ALL airlines, any month, any stay."""
+    if not deals:
+        return None
+    return min(deals, key=lambda d: d["price_sgd"])
+
+
 def summarize(text: str, dest_code: str) -> dict:
     monthly = parse_monthly_one_way(text)
     headline_rt = parse_headline_round_trip(text)
@@ -187,10 +212,14 @@ def summarize(text: str, dest_code: str) -> dict:
         "monthly_one_way": monthly,
         "headline_round_trip": headline_rt,
         "round_trip_deals": deals,
+        # SIA + Scoot (priority)
         "cheapest_one_way_june_sia_scoot": best_one_way_june_sia_scoot(monthly),
-        "cheapest_one_way_june_any": best_one_way_june_any(monthly),
         "cheapest_rt_june_3to5n_sia_scoot": best_round_trip_june_3to5n(deals),
         "cheapest_rt_any_sia_scoot": best_round_trip_relaxed(deals),
+        # All airlines (reference)
+        "cheapest_one_way_june_any": best_one_way_june_any(monthly),
+        "cheapest_rt_june_3to5n_any": best_round_trip_june_3to5n_any(deals),
+        "cheapest_rt_any_any": best_round_trip_any(deals),
     }
 
 

@@ -31,241 +31,202 @@ body {
     radial-gradient(circle at 80% 90%, rgba(15,52,96,.04), transparent 40%);
   color: var(--ink);
   font-family: ui-serif, "Iowan Old Style", "Apple Garamond", Georgia, "Times New Roman", serif;
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 15px; line-height: 1.55;
   padding: 28px 24px 64px;
   font-feature-settings: "kern" 1, "liga" 1;
 }
 
-/* Typography */
 .eyebrow {
   font-family: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  text-transform: uppercase;
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: .18em; text-transform: uppercase;
   color: var(--accent);
 }
 h1.masthead {
   font-family: ui-serif, "Iowan Old Style", Georgia, serif;
-  font-weight: 700;
-  font-size: 34px;
-  line-height: 1.05;
-  letter-spacing: -.015em;
-  margin: 6px 0 6px;
+  font-weight: 700; font-size: 34px; line-height: 1.05;
+  letter-spacing: -.015em; margin: 6px 0;
   color: var(--ink);
 }
 .deck {
-  font-family: ui-serif, Georgia, serif;
-  font-style: italic;
-  font-size: 15px;
-  color: var(--ink-soft);
-  max-width: 640px;
-  margin: 0 0 28px;
+  font-family: ui-serif, Georgia, serif; font-style: italic;
+  font-size: 15px; color: var(--ink-soft);
+  max-width: 720px; margin: 6px 0 28px;
 }
 h2.section {
   font-family: ui-serif, Georgia, serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .22em;
-  text-transform: uppercase;
+  font-size: 12px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase;
   color: var(--ink-faint);
-  margin: 32px 0 14px;
-  padding-bottom: 8px;
+  margin: 32px 0 14px; padding-bottom: 8px;
   border-bottom: 1px solid var(--line);
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  display: flex; align-items: baseline; justify-content: space-between;
 }
 h2.section .hint {
   font-family: ui-serif, Georgia, serif;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0;
-  text-transform: none;
-  font-size: 12px;
-  color: var(--ink-faint);
+  font-weight: 400; font-style: italic;
+  letter-spacing: 0; text-transform: none;
+  font-size: 12px; color: var(--ink-faint);
 }
-
-/* Numbers */
 .num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum" 1; }
 
-/* KPI cards — the hero */
+/* KPI cards */
 .kpis {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
   margin-bottom: 8px;
 }
 .kpi {
-  position: relative;
-  background: #ffffff;
-  border-radius: 4px;
-  padding: 22px 22px 20px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  border: 1px solid var(--paper-edge);
+  position: relative; background: #fff; border-radius: 4px;
+  padding: 22px 22px 18px; box-shadow: var(--shadow);
+  border: 1px solid var(--paper-edge); overflow: hidden;
 }
 .kpi::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 4px;
-  background: var(--dest-color);
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: var(--dest-color);
 }
 .kpi .place {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-bottom: 18px;
+  display: flex; align-items: baseline; gap: 8px;
+  margin-bottom: 16px;
 }
 .kpi .place-name {
   font-family: ui-serif, "Iowan Old Style", Georgia, serif;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -.01em;
-  color: var(--ink);
+  font-size: 22px; font-weight: 700;
+  letter-spacing: -.01em; color: var(--ink);
 }
 .kpi .place-iata {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .14em;
-  color: var(--ink-faint);
-  background: var(--paper);
-  padding: 3px 6px;
-  border-radius: 2px;
+  font-size: 10px; font-weight: 600; letter-spacing: .14em;
+  color: var(--ink-faint); background: var(--paper);
+  padding: 3px 6px; border-radius: 2px;
 }
 .kpi .place-country {
-  font-family: ui-serif, Georgia, serif;
-  font-style: italic;
-  font-size: 12px;
-  color: var(--ink-faint);
-  margin-left: auto;
+  font-family: ui-serif, Georgia, serif; font-style: italic;
+  font-size: 12px; color: var(--ink-faint); margin-left: auto;
 }
-.kpi .lowest-label {
+.kpi .priority-block .lowest-label {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+  font-size: 10px; font-weight: 600; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--dest-color);
   margin-bottom: 4px;
 }
-.kpi .lowest-price {
+.kpi .priority-block .lowest-price {
   font-family: ui-serif, "Iowan Old Style", Georgia, serif;
-  font-size: 44px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -.02em;
-  color: var(--ink);
+  font-size: 42px; font-weight: 800; line-height: 1;
+  letter-spacing: -.02em; color: var(--ink);
   margin: 2px 0 6px;
 }
-.kpi .lowest-price .cur {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--ink-soft);
-  margin-right: 4px;
-  vertical-align: top;
-  position: relative;
-  top: 6px;
+.kpi .priority-block .lowest-price .cur {
+  font-size: 16px; font-weight: 600; color: var(--ink-soft);
+  margin-right: 4px; vertical-align: top; position: relative; top: 5px;
 }
 .kpi .lowest-meta {
   font-family: ui-serif, Georgia, serif;
-  font-size: 13px;
-  color: var(--ink-soft);
+  font-size: 12.5px; color: var(--ink-soft);
   line-height: 1.45;
 }
 .kpi .lowest-meta strong { color: var(--ink); font-weight: 700; }
-.kpi .kpi-foot {
-  margin-top: 14px;
-  padding-top: 12px;
+.kpi .reference-block {
+  margin-top: 14px; padding-top: 12px;
   border-top: 1px dashed var(--line);
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  font-size: 12px;
-  color: var(--ink-faint);
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 4px 10px; align-items: baseline;
 }
-.kpi .kpi-foot .today-price {
+.kpi .reference-block .ref-label {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-weight: 600;
-  color: var(--ink);
+  font-size: 9.5px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.kpi .reference-block .ref-value {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 14px; font-weight: 600; color: var(--ink);
   font-variant-numeric: tabular-nums;
 }
-.kpi.empty .lowest-price { color: var(--ink-faint); font-size: 32px; }
-.kpi.empty .lowest-meta { font-style: italic; color: var(--ink-faint); }
+.kpi .reference-block .ref-meta {
+  grid-column: 1 / -1;
+  font-family: ui-serif, Georgia, serif;
+  font-size: 11.5px; color: var(--ink-faint);
+  font-style: italic; line-height: 1.4;
+}
+.kpi .reference-block.empty .ref-value { color: var(--ink-faint); font-style: italic; }
+.kpi.empty .priority-block .lowest-price { color: var(--ink-faint); font-size: 28px; }
+.kpi.empty .priority-block .lowest-meta { font-style: italic; color: var(--ink-faint); }
+.kpi .kpi-foot {
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between;
+  font-size: 11.5px; color: var(--ink-faint);
+}
+.kpi .today-price {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-weight: 600; color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
 
-/* Trend table beneath KPIs */
+/* Trend cards */
 .trend-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
 }
 .trend-card {
-  background: #fff;
-  border-radius: 4px;
-  border: 1px solid var(--paper-edge);
-  padding: 16px 18px;
+  background: #fff; border-radius: 4px;
+  border: 1px solid var(--paper-edge); padding: 16px 18px;
   box-shadow: var(--shadow);
 }
-.trend-card .tc-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.tc-head {
+  display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 12px;
 }
-.trend-card .tc-place {
-  font-family: ui-serif, Georgia, serif;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: -.005em;
+.tc-place {
+  font-family: ui-serif, Georgia, serif; font-weight: 700;
+  font-size: 14px; letter-spacing: -.005em;
 }
-.trend-card .dot {
+.dot {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--dest-color);
-  display: inline-block;
-  margin-right: 8px;
+  display: inline-block; margin-right: 8px;
 }
-.metric-row { margin-bottom: 14px; }
-.metric-row:last-child { margin-bottom: 0; }
-.metric-row .ml {
+.metric-block { margin-bottom: 16px; }
+.metric-block:last-child { margin-bottom: 0; }
+.metric-block .ml {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+  font-size: 9.5px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-faint);
   margin-bottom: 6px;
 }
-.metric-row .mp {
-  font-family: ui-serif, Georgia, serif;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -.01em;
-  color: var(--ink);
+.priceline {
+  display: flex; align-items: baseline; gap: 8px;
+  margin-bottom: 4px;
+}
+.priceline .tier-pill {
+  font-family: ui-monospace, monospace;
+  font-size: 9px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 2px 6px; border-radius: 2px;
+}
+.priceline .tier-pill.priority { background: var(--paper); color: var(--accent); }
+.priceline .tier-pill.reference { background: var(--paper); color: var(--ink-faint); border: 1px solid var(--line); }
+.priceline .mp {
+  font-family: ui-serif, Georgia, serif; font-size: 18px;
+  font-weight: 700; letter-spacing: -.005em; color: var(--ink);
   font-variant-numeric: tabular-nums;
-  display: inline-block;
 }
-.metric-row .mp .cur { font-size: 12px; color: var(--ink-soft); font-weight: 500; margin-right: 2px; position: relative; top: -1px; }
-.metric-row .mp.empty { color: var(--ink-faint); font-style: italic; font-size: 14px; font-weight: 400; }
-.metric-row .stats {
-  margin-top: 6px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px 16px;
-  font-size: 12px;
-  color: var(--ink-soft);
+.priceline .mp .cur { font-size: 11px; color: var(--ink-soft); font-weight: 500; margin-right: 2px; position: relative; top: -1px; }
+.priceline .mp.empty { color: var(--ink-faint); font-style: italic; font-size: 13px; font-weight: 400; }
+.priceline .who {
+  font-family: ui-serif, Georgia, serif; font-style: italic;
+  font-size: 12px; color: var(--ink-soft);
 }
-.metric-row .stats > div { display: flex; justify-content: space-between; gap: 6px; }
-.metric-row .stats span:last-child { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.stats-line {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px; color: var(--ink-faint);
+  margin-top: 2px; margin-bottom: 8px;
+  display: flex; gap: 14px; flex-wrap: wrap;
+}
+.stats-line .item span:last-child { color: var(--ink); font-weight: 600; }
 .trend-badge {
-  display: inline-flex; align-items: center; gap: 4px;
+  display: inline-flex; align-items: center;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 10px; font-weight: 600;
-  padding: 3px 7px; border-radius: 999px;
-  margin-left: 6px;
-  vertical-align: middle;
+  padding: 2px 7px; border-radius: 999px;
 }
 .trend-badge.up   { background: #fde8e0; color: #b8410c; }
 .trend-badge.down { background: #dceedc; color: #1f6f54; }
@@ -274,134 +235,103 @@ h2.section .hint {
 .delta-up   { color: #b8410c; }
 .delta-down { color: #1f6f54; }
 .delta-flat { color: var(--ink-soft); }
-.note-tag {
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 10px;
-  color: var(--ink-faint);
-  font-style: italic;
-  margin-top: 4px;
-  display: block;
-}
 
 /* Chart */
 .chart-wrap {
-  background: #fff;
-  border-radius: 4px;
+  background: #fff; border-radius: 4px;
   border: 1px solid var(--paper-edge);
-  padding: 20px 22px 18px;
-  box-shadow: var(--shadow);
+  padding: 20px 22px 18px; box-shadow: var(--shadow);
   margin-bottom: 32px;
 }
 .chart-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; gap: 12px; flex-wrap: wrap;
 }
 .tabs { display: inline-flex; background: var(--paper); border-radius: 999px; padding: 3px; }
 .tab {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .08em;
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
   text-transform: uppercase;
-  padding: 7px 14px;
-  border: 0; background: transparent;
-  border-radius: 999px;
-  cursor: pointer;
-  color: var(--ink-soft);
+  padding: 7px 14px; border: 0; background: transparent;
+  border-radius: 999px; cursor: pointer; color: var(--ink-soft);
   transition: color .15s, background .15s;
 }
 .tab:hover { color: var(--ink); }
 .tab.active { background: var(--ink); color: var(--paper); }
+.toggle-ref {
+  display: flex; align-items: center; gap: 8px;
+  font-family: ui-monospace, monospace; font-size: 10px;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-soft); cursor: pointer; user-select: none;
+}
+.toggle-ref input { accent-color: var(--accent); }
 .chartwrap { position: relative; height: 320px; }
 .empty {
-  color: var(--ink-faint);
-  font-style: italic;
-  padding: 40px;
-  text-align: center;
+  color: var(--ink-faint); font-style: italic;
+  padding: 40px; text-align: center;
 }
 
 /* History */
 details.history {
-  background: #fff;
-  border: 1px solid var(--paper-edge);
-  border-radius: 4px;
-  box-shadow: var(--shadow);
-  padding: 0;
-  overflow: hidden;
+  background: #fff; border: 1px solid var(--paper-edge);
+  border-radius: 4px; box-shadow: var(--shadow);
+  padding: 0; overflow: hidden;
 }
 details.history > summary {
-  cursor: pointer;
-  list-style: none;
+  cursor: pointer; list-style: none;
   padding: 14px 18px;
   font-family: ui-serif, Georgia, serif;
-  font-size: 13px;
-  letter-spacing: -.005em;
-  color: var(--ink);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  font-size: 13px; color: var(--ink);
+  display: flex; justify-content: space-between; align-items: center;
 }
 details.history > summary::-webkit-details-marker { display: none; }
 details.history > summary::after {
   content: "expand";
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
+  font-size: 10px; font-weight: 600; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-faint);
 }
 details.history[open] > summary::after { content: "collapse"; }
 .tbl {
-  width: 100%;
-  border-collapse: collapse;
+  width: 100%; border-collapse: collapse;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 11.5px;
 }
-.tbl th, .tbl td {
-  padding: 9px 14px;
-  text-align: left;
-  border-top: 1px solid var(--line);
-}
+.tbl th, .tbl td { padding: 9px 14px; text-align: left; border-top: 1px solid var(--line); }
 .tbl th {
-  background: var(--paper);
-  color: var(--ink-faint);
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  font-size: 10px;
+  background: var(--paper); color: var(--ink-faint);
+  font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; font-size: 10px;
 }
 .tbl td.num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); }
 .tbl tr:hover td { background: rgba(184,65,12,.025); }
+.tbl .row-reference td { color: var(--ink-soft); }
+.tbl .cat-badge {
+  font-size: 9px; padding: 1px 5px; border-radius: 2px;
+  letter-spacing: .12em; text-transform: uppercase;
+}
+.tbl .cat-badge.priority { background: var(--accent-soft); color: var(--accent); }
+.tbl .cat-badge.reference { background: var(--paper); color: var(--ink-faint); border: 1px solid var(--line); }
 
-/* Footer ribbon */
 .ribbon {
   margin: 28px 0 0;
   padding: 14px 16px;
-  background: var(--ink);
-  color: var(--paper);
-  border-radius: 4px;
-  font-size: 12px;
+  background: var(--ink); color: var(--paper);
+  border-radius: 4px; font-size: 12px;
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   letter-spacing: .04em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: flex; justify-content: space-between; align-items: center;
 }
 .ribbon a { color: var(--accent-soft); text-decoration: none; border-bottom: 1px dotted var(--accent-soft); }
 .ribbon a:hover { color: #fff; }
 
-/* Mobile */
 @media (max-width: 720px) {
   body { padding: 20px 16px 48px; }
   h1.masthead { font-size: 26px; }
   .kpis, .trend-grid { grid-template-columns: 1fr; }
-  .chart-controls { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .chart-controls { flex-direction: column; align-items: flex-start; }
 }
 
-/* Staggered entrance */
 .kpi, .trend-card, .chart-wrap, details.history, .ribbon { opacity: 0; animation: rise .6s cubic-bezier(.16,.84,.44,1) forwards; }
 .kpi:nth-child(1) { animation-delay: .05s; }
 .kpi:nth-child(2) { animation-delay: .12s; }
@@ -425,24 +355,25 @@ details.history { animation-delay: .5s; }
 <body>
 
 <header>
-  <div class="eyebrow">Daily Briefing · SIA &amp; Scoot · Trip.com</div>
+  <div class="eyebrow">Daily Briefing · All Airlines · Trip.com</div>
   <h1 class="masthead">Singapore &mdash; bound for warmer skies</h1>
-  <p class="deck">A daily ledger of the cheapest published fares from Changi to Bangkok, Phuket and Taipei. Round-trip filter: June&nbsp;2026 departure, three to five nights away.</p>
+  <p class="deck">A daily ledger of the cheapest published fares from Changi to Bangkok, Phuket and Taipei. Singapore Airlines and Scoot lead the headline; all other carriers shown as reference. Round-trip filter: June&nbsp;2026 departure, three to five nights away.</p>
 </header>
 
-<h2 class="section">Lowest fare seen <span class="hint">since tracking began</span></h2>
+<h2 class="section">Lowest fare seen <span class="hint">since tracking began · SIA/Scoot headline, all airlines as reference</span></h2>
 <section class="kpis" id="kpis"></section>
 
 <h2 class="section">Today&rsquo;s snapshot <span class="hint" id="snapshot-date"></span></h2>
 <section class="trend-grid" id="trends"></section>
 
-<h2 class="section">Price trajectory <span class="hint">SGD over time</span></h2>
+<h2 class="section">Price trajectory <span class="hint">SGD over time · solid = SIA/Scoot, dashed = any airline</span></h2>
 <div class="chart-wrap">
   <div class="chart-controls">
     <div class="tabs">
       <button class="tab active" data-metric="one_way_june">One-way June</button>
       <button class="tab" data-metric="round_trip_june">Round-trip · 3-5 nights</button>
     </div>
+    <label class="toggle-ref"><input type="checkbox" id="show-ref"> show all-airline reference</label>
     <div class="eyebrow" id="chart-meta"></div>
   </div>
   <div class="chartwrap"><canvas id="trend"></canvas></div>
@@ -459,7 +390,7 @@ details.history { animation-delay: .5s; }
 </div>
 
 <script>
-const PAYLOAD = {"labels": ["2026-06-02"], "metrics": {"one_way_june": [{"label": "Bangkok", "dest": "BKK", "data": [null], "borderColor": "#0f3460", "backgroundColor": "#0f34601a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#0f3460", "borderWidth": 2}, {"label": "Phuket", "dest": "HKT", "data": [104], "borderColor": "#1f6f54", "backgroundColor": "#1f6f541a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#1f6f54", "borderWidth": 2}, {"label": "Taipei", "dest": "TPE", "data": [175], "borderColor": "#7a1f3d", "backgroundColor": "#7a1f3d1a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#7a1f3d", "borderWidth": 2}], "round_trip_june": [{"label": "Bangkok", "dest": "BKK", "data": [null], "borderColor": "#0f3460", "backgroundColor": "#0f34601a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#0f3460", "borderWidth": 2}, {"label": "Phuket", "dest": "HKT", "data": [194], "borderColor": "#1f6f54", "backgroundColor": "#1f6f541a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#1f6f54", "borderWidth": 2}, {"label": "Taipei", "dest": "TPE", "data": [253], "borderColor": "#7a1f3d", "backgroundColor": "#7a1f3d1a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#7a1f3d", "borderWidth": 2}]}, "latest": {"one_way_june|HKT": {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "one_way_june", "price_sgd": "104", "dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "round_trip_june|HKT": {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "round_trip_june", "price_sgd": "194", "dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, "one_way_june|TPE": {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "one_way_june", "price_sgd": "175", "dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "round_trip_june|TPE": {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "round_trip_june", "price_sgd": "253", "dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}}, "rows": [{"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "one_way_june", "price_sgd": "104", "dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "round_trip_june", "price_sgd": "194", "dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "one_way_june", "price_sgd": "175", "dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "round_trip_june", "price_sgd": "253", "dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}], "stats": {"HKT": {"one_way_june": {"latest_price": 104, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 104, "delta_vs_7d_pct": 0.0, "lowest_so_far": 104, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}, "round_trip_june": {"latest_price": 194, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 194, "delta_vs_7d_pct": 0.0, "lowest_so_far": 194, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}, "TPE": {"one_way_june": {"latest_price": 175, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 175, "delta_vs_7d_pct": 0.0, "lowest_so_far": 175, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}, "round_trip_june": {"latest_price": 253, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 253, "delta_vs_7d_pct": 0.0, "lowest_so_far": 253, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}}};
+const PAYLOAD = {"labels": ["2026-06-02"], "metrics": {"one_way_june": {"priority": [{"label": "Bangkok", "dest": "BKK", "data": [null], "borderColor": "#0f3460", "backgroundColor": "#0f34601a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#0f3460", "borderWidth": 2, "borderDash": []}, {"label": "Phuket", "dest": "HKT", "data": [104], "borderColor": "#1f6f54", "backgroundColor": "#1f6f541a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#1f6f54", "borderWidth": 2, "borderDash": []}, {"label": "Taipei", "dest": "TPE", "data": [175], "borderColor": "#7a1f3d", "backgroundColor": "#7a1f3d1a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#7a1f3d", "borderWidth": 2, "borderDash": []}], "reference": [{"label": "Bangkok", "dest": "BKK", "data": [null], "borderColor": "#0f3460", "backgroundColor": "#0f34601a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#0f3460", "borderWidth": 2, "borderDash": [4, 4]}, {"label": "Phuket", "dest": "HKT", "data": [null], "borderColor": "#1f6f54", "backgroundColor": "#1f6f541a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#1f6f54", "borderWidth": 2, "borderDash": [4, 4]}, {"label": "Taipei", "dest": "TPE", "data": [null], "borderColor": "#7a1f3d", "backgroundColor": "#7a1f3d1a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#7a1f3d", "borderWidth": 2, "borderDash": [4, 4]}]}, "round_trip_june": {"priority": [{"label": "Bangkok", "dest": "BKK", "data": [null], "borderColor": "#0f3460", "backgroundColor": "#0f34601a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#0f3460", "borderWidth": 2, "borderDash": []}, {"label": "Phuket", "dest": "HKT", "data": [194], "borderColor": "#1f6f54", "backgroundColor": "#1f6f541a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#1f6f54", "borderWidth": 2, "borderDash": []}, {"label": "Taipei", "dest": "TPE", "data": [253], "borderColor": "#7a1f3d", "backgroundColor": "#7a1f3d1a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#7a1f3d", "borderWidth": 2, "borderDash": []}], "reference": [{"label": "Bangkok", "dest": "BKK", "data": [157], "borderColor": "#0f3460", "backgroundColor": "#0f34601a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#0f3460", "borderWidth": 2, "borderDash": [4, 4]}, {"label": "Phuket", "dest": "HKT", "data": [null], "borderColor": "#1f6f54", "backgroundColor": "#1f6f541a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#1f6f54", "borderWidth": 2, "borderDash": [4, 4]}, {"label": "Taipei", "dest": "TPE", "data": [null], "borderColor": "#7a1f3d", "backgroundColor": "#7a1f3d1a", "tension": 0.3, "spanGaps": true, "pointRadius": 4, "pointBackgroundColor": "#7a1f3d", "borderWidth": 2, "borderDash": [4, 4]}]}}, "rows": [{"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "one_way_june", "category": "priority", "price_sgd": "104", "dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "HKT", "metric": "round_trip_june", "category": "priority", "price_sgd": "194", "dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "one_way_june", "category": "priority", "price_sgd": "175", "dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "TPE", "metric": "round_trip_june", "category": "priority", "price_sgd": "253", "dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}, {"snapshot_date": "2026-06-02", "dest": "BKK", "metric": "round_trip_june", "category": "reference", "price_sgd": "157", "dep_date": "2026-05-06", "ret_date": "2026-05-08", "airline_out": "Thai Lion Air", "airline_in": "Thai Lion Air", "note": "fallback_any_airline"}], "stats": {"HKT": {"one_way_june": {"priority": {"latest_price": 104, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-28", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 104, "delta_vs_7d_pct": 0.0, "lowest_so_far": 104, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}, "round_trip_june": {"priority": {"latest_price": 194, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-28", "ret_date": "2026-07-02", "airline_out": "Scoot", "airline_in": "Scoot", "note": "june_3to5n_sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 194, "delta_vs_7d_pct": 0.0, "lowest_so_far": 194, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}}, "TPE": {"one_way_june": {"priority": {"latest_price": 175, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-06-02", "ret_date": "", "airline_out": "Scoot", "airline_in": "", "note": "sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 175, "delta_vs_7d_pct": 0.0, "lowest_so_far": 175, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}, "round_trip_june": {"priority": {"latest_price": 253, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-05-19", "ret_date": "2026-05-22", "airline_out": "Scoot", "airline_in": "Scoot", "note": "fallback_any_month_sia_scoot"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 253, "delta_vs_7d_pct": 0.0, "lowest_so_far": 253, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}}, "BKK": {"round_trip_june": {"reference": {"latest_price": 157, "latest_date": "2026-06-02", "latest_meta": {"dep_date": "2026-05-06", "ret_date": "2026-05-08", "airline_out": "Thai Lion Air", "airline_in": "Thai Lion Air", "note": "fallback_any_airline"}, "prior_price": null, "delta_day_pct": null, "avg_7d": 157, "delta_vs_7d_pct": 0.0, "lowest_so_far": 157, "lowest_date": "2026-06-02", "snapshots": 1, "trend_recent": "flat"}}}}};
 const DEST_LABEL  = {"BKK":"Bangkok","HKT":"Phuket","TPE":"Taipei"};
 const DEST_SUB    = {"BKK":"Thailand","HKT":"Thailand","TPE":"Taiwan"};
 const COLOR_VAR   = {"BKK":"var(--bkk)","HKT":"var(--hkt)","TPE":"var(--tpe)"};
@@ -475,80 +406,117 @@ function fmtDeltaPct(p) {
   if (p == null) return { text:'—', cls:'delta-flat' };
   if (Math.abs(p) < 0.5) return { text:'flat', cls:'delta-flat' };
   const sign = p > 0 ? '+' : '';
-  const cls = p > 0 ? 'delta-up' : 'delta-down';
-  return { text: `${sign}${p}%`, cls };
+  return { text: `${sign}${p}%`, cls: p > 0 ? 'delta-up' : 'delta-down' };
 }
 function trendBadgeHtml(s) {
   if (!s) return '';
   if (s.snapshots <= 1) return `<span class="trend-badge first">first day</span>`;
-  const map = { down: ['down', '↓ falling'], up: ['up', '↑ rising'], flat: ['flat', '→ steady'] };
+  const map = { down: ['down','↓ falling'], up: ['up','↑ rising'], flat: ['flat','→ steady'] };
   const [cls, label] = map[s.trend_recent] || map.flat;
   return `<span class="trend-badge ${cls}">${label}</span>`;
 }
+function whoFromMeta(m) {
+  if (!m) return '—';
+  if (m.airline_in && m.airline_in !== m.airline_out) return `${m.airline_out} / ${m.airline_in}`;
+  return m.airline_out || '—';
+}
+function datesFromMeta(m) {
+  if (!m) return '';
+  if (m.ret_date) return `${fmtDate(m.dep_date)} → ${fmtDate(m.ret_date)}`;
+  return fmtDate(m.dep_date);
+}
 
-// ---- KPI cards (lowest seen) ----
+// stats lookup helpers
+function stat(code, metric, cat) {
+  return (((PAYLOAD.stats[code] || {})[metric] || {})[cat]) || null;
+}
+function pickHero(code) {
+  // Prefer round_trip_june priority, then one_way priority, then any reference
+  return stat(code,'round_trip_june','priority')
+      || stat(code,'one_way_june','priority')
+      || stat(code,'round_trip_june','reference')
+      || stat(code,'one_way_june','reference');
+}
+
+// ---- KPI ----
 function renderKPIs() {
   const el = document.getElementById('kpis');
   el.innerHTML = '';
   ['BKK','HKT','TPE'].forEach(code => {
-    const s = (PAYLOAD.stats[code] || {});
-    // Prefer round-trip; if missing, use one-way
-    const pick = s.round_trip_june || s.one_way_june;
-    const isRT = !!s.round_trip_june;
+    const heroPri = stat(code,'round_trip_june','priority') || stat(code,'one_way_june','priority');
+    const heroRef = stat(code,'round_trip_june','reference') || stat(code,'one_way_june','reference');
+    const hero = heroPri || heroRef;
+    const heroIsPriority = !!heroPri;
+    const isRT = (heroPri && stat(code,'round_trip_june','priority'))
+              || (!heroPri && heroRef && stat(code,'round_trip_june','reference'));
+
     const div = document.createElement('div');
-    div.className = 'kpi' + (pick ? '' : ' empty');
+    div.className = 'kpi' + (hero ? '' : ' empty');
     div.style.setProperty('--dest-color', COLOR_VAR[code]);
-    if (!pick) {
+
+    if (!hero) {
       div.innerHTML = `
         <div class="place">
           <span class="place-name">${DEST_LABEL[code]}</span>
           <span class="place-iata">${code}</span>
           <span class="place-country">${DEST_SUB[code]}</span>
         </div>
-        <div class="lowest-label">Lowest seen</div>
-        <div class="lowest-price">—</div>
-        <div class="lowest-meta">No data yet · first snapshot pending</div>
-      `;
+        <div class="priority-block">
+          <div class="lowest-label">Lowest seen · SIA / Scoot</div>
+          <div class="lowest-price">—</div>
+          <div class="lowest-meta">No data yet · awaiting next snapshot</div>
+        </div>`;
     } else {
-      const m = pick.latest_meta || {};
-      const who = (m.airline_in && m.airline_in !== m.airline_out)
-        ? `${m.airline_out} / ${m.airline_in}` : (m.airline_out || '');
-      const dates = m.ret_date ? `${fmtDate(m.dep_date)} → ${fmtDate(m.ret_date)}` : fmtDate(m.dep_date);
-      const today = pick.latest_price;
-      const todayDelta = fmtDeltaPct(pick.delta_day_pct);
+      const m = hero.latest_meta || {};
+      const todayDelta = fmtDeltaPct(hero.delta_day_pct);
+      // Reference line (only meaningful if priority exists AND reference is different)
+      const refRT = stat(code,'round_trip_june','reference');
+      const refOW = stat(code,'one_way_june','reference');
+      const ref = isRT ? refRT : refOW;
+      const refHtml = (ref && (!heroPri || ref.lowest_so_far !== hero.lowest_so_far)) ? `
+        <div class="reference-block">
+          <span class="ref-label">All airlines</span>
+          <span class="ref-value num">S$${ref.lowest_so_far}</span>
+          <span class="ref-meta">${whoFromMeta(ref.latest_meta)} · ${datesFromMeta(ref.latest_meta)} · on ${fmtDate(ref.lowest_date)}</span>
+        </div>` : (heroPri ? `
+        <div class="reference-block empty">
+          <span class="ref-label">All airlines</span>
+          <span class="ref-value">same as priority</span>
+        </div>` : `
+        <div class="reference-block">
+          <span class="ref-label">SIA / Scoot</span>
+          <span class="ref-value" style="color:var(--ink-faint);font-style:italic">not currently published</span>
+        </div>`);
+
       div.innerHTML = `
         <div class="place">
           <span class="place-name">${DEST_LABEL[code]}</span>
           <span class="place-iata">${code}</span>
           <span class="place-country">${DEST_SUB[code]}</span>
         </div>
-        <div class="lowest-label">Lowest ${isRT ? 'round-trip' : 'one-way'} seen</div>
-        <div class="lowest-price num"><span class="cur">S$</span>${pick.lowest_so_far}</div>
-        <div class="lowest-meta">on <strong>${fmtDate(pick.lowest_date)}</strong> · ${who || '—'}${dates ? ' · ' + dates : ''}</div>
-        <div class="kpi-foot">
-          <span>Today: <span class="today-price">S$${today}</span></span>
-          <span class="${todayDelta.cls}">${todayDelta.text} d/d</span>
+        <div class="priority-block">
+          <div class="lowest-label">${heroIsPriority ? 'Lowest seen · SIA / Scoot' : 'Lowest seen · all airlines'}${isRT ? ' · round-trip' : ' · one-way'}</div>
+          <div class="lowest-price num"><span class="cur">S$</span>${hero.lowest_so_far}</div>
+          <div class="lowest-meta">on <strong>${fmtDate(hero.lowest_date)}</strong> · ${whoFromMeta(m)}${datesFromMeta(m) ? ' · ' + datesFromMeta(m) : ''}</div>
         </div>
-      `;
+        ${refHtml}
+        <div class="kpi-foot">
+          <span>Today: <span class="today-price">S$${hero.latest_price}</span></span>
+          <span class="${todayDelta.cls}">${todayDelta.text} d/d</span>
+        </div>`;
     }
     el.appendChild(div);
   });
 }
 
-// ---- Trend cards (one card per destination, both metrics) ----
+// ---- Trend cards ----
 function renderTrends() {
   const el = document.getElementById('trends');
   el.innerHTML = '';
-
-  // Find the most recent snapshot date across all rows for header
-  const latestDate = PAYLOAD.labels.length ? PAYLOAD.labels[PAYLOAD.labels.length - 1] : '';
+  const latestDate = PAYLOAD.labels.length ? PAYLOAD.labels[PAYLOAD.labels.length-1] : '';
   document.getElementById('snapshot-date').textContent = latestDate ? fmtDate(latestDate) : '';
 
   ['BKK','HKT','TPE'].forEach(code => {
-    const s = PAYLOAD.stats[code] || {};
-    const ow = s.one_way_june;
-    const rt = s.round_trip_june;
-
     const block = document.createElement('div');
     block.className = 'trend-card';
     block.style.setProperty('--dest-color', COLOR_VAR[code]);
@@ -556,54 +524,94 @@ function renderTrends() {
       <div class="tc-head">
         <div class="tc-place"><span class="dot"></span>${DEST_LABEL[code]} <span style="color:var(--ink-faint);font-weight:400;font-family:ui-monospace,monospace;font-size:10px;margin-left:4px;letter-spacing:.14em">${code}</span></div>
       </div>
-      ${metricBlockHtml('One-way June', ow)}
-      ${metricBlockHtml('Round-trip June · 3-5 nights', rt)}
+      ${metricBlockHtml(code, 'One-way June', 'one_way_june')}
+      ${metricBlockHtml(code, 'Round-trip · 3-5 nights', 'round_trip_june')}
     `;
     el.appendChild(block);
   });
 }
 
-function metricBlockHtml(label, s) {
-  if (!s) {
-    return `<div class="metric-row">
+function metricBlockHtml(code, label, metric) {
+  const pri = stat(code, metric, 'priority');
+  const ref = stat(code, metric, 'reference');
+  if (!pri && !ref) {
+    return `<div class="metric-block">
       <div class="ml">${label}</div>
-      <div class="mp empty">no match yet</div>
+      <div class="priceline"><span class="mp empty">no match yet</span></div>
     </div>`;
   }
-  const dd = fmtDeltaPct(s.delta_day_pct);
-  const av = fmtDeltaPct(s.delta_vs_7d_pct);
-  const m = s.latest_meta || {};
-  const note = (m.note || '').startsWith('fallback') ? `<span class="note-tag">${m.note.replace(/_/g,' ')}</span>` : '';
-  return `<div class="metric-row">
-    <div class="ml">${label}</div>
-    <div class="mp num"><span class="cur">S$</span>${s.latest_price}${trendBadgeHtml(s)}</div>
-    <div class="stats">
-      <div><span>vs yesterday</span><span class="${dd.cls}">${dd.text}</span></div>
-      <div><span>vs 7-day avg</span><span class="${av.cls}">${av.text}</span></div>
-      <div><span>7-day avg</span><span>S$${s.avg_7d != null ? Math.round(s.avg_7d) : '—'}</span></div>
-      <div><span>seen since</span><span>${s.snapshots}d</span></div>
+  let html = `<div class="metric-block"><div class="ml">${label}</div>`;
+  // Priority row
+  if (pri) {
+    const dd = fmtDeltaPct(pri.delta_day_pct);
+    const av = fmtDeltaPct(pri.delta_vs_7d_pct);
+    html += `<div class="priceline">
+      <span class="tier-pill priority">SIA / Scoot</span>
+      <span class="mp num"><span class="cur">S$</span>${pri.latest_price}</span>
+      ${trendBadgeHtml(pri)}
+      <span class="who">${whoFromMeta(pri.latest_meta)}</span>
     </div>
-    ${note}
-  </div>`;
+    <div class="stats-line">
+      <span class="item"><span>d/d </span><span class="${dd.cls}">${dd.text}</span></span>
+      <span class="item"><span>vs 7d </span><span class="${av.cls}">${av.text}</span></span>
+      <span class="item"><span>low </span><span>S$${pri.lowest_so_far}</span></span>
+    </div>`;
+  } else {
+    html += `<div class="priceline">
+      <span class="tier-pill priority">SIA / Scoot</span>
+      <span class="mp empty">not currently published</span>
+    </div>`;
+  }
+  // Reference row (skip if identical to priority)
+  if (ref && (!pri || ref.latest_price !== pri.latest_price || (ref.latest_meta||{}).airline_out !== (pri.latest_meta||{}).airline_out)) {
+    const dd = fmtDeltaPct(ref.delta_day_pct);
+    const av = fmtDeltaPct(ref.delta_vs_7d_pct);
+    html += `<div class="priceline" style="margin-top:8px">
+      <span class="tier-pill reference">Any airline</span>
+      <span class="mp num"><span class="cur">S$</span>${ref.latest_price}</span>
+      ${trendBadgeHtml(ref)}
+      <span class="who">${whoFromMeta(ref.latest_meta)}</span>
+    </div>
+    <div class="stats-line">
+      <span class="item"><span>d/d </span><span class="${dd.cls}">${dd.text}</span></span>
+      <span class="item"><span>vs 7d </span><span class="${av.cls}">${av.text}</span></span>
+      <span class="item"><span>low </span><span>S$${ref.lowest_so_far}</span></span>
+    </div>`;
+  }
+  html += `</div>`;
+  return html;
 }
 
 // ---- Chart ----
 let chart;
 let activeMetric = 'one_way_june';
+let showRef = false;
+
 function renderChart() {
-  const datasets = (PAYLOAD.metrics[activeMetric] || []).map(ds => ({
+  const metric = PAYLOAD.metrics[activeMetric] || {priority:[], reference:[]};
+  let datasets = (metric.priority || []).map(ds => ({
     ...ds,
     borderColor: COLOR_HEX[ds.dest],
     backgroundColor: COLOR_HEX[ds.dest] + '1a',
     pointBackgroundColor: COLOR_HEX[ds.dest],
+    label: ds.label + ' (SIA/Scoot)',
   }));
+  if (showRef) {
+    datasets = datasets.concat((metric.reference || []).map(ds => ({
+      ...ds,
+      borderColor: COLOR_HEX[ds.dest],
+      backgroundColor: 'transparent',
+      pointBackgroundColor: COLOR_HEX[ds.dest],
+      label: ds.label + ' (any)',
+      borderDash: [4,4], pointRadius: 3, borderWidth: 1.5,
+    })));
+  }
   const ctx = document.getElementById('trend');
   const meta = document.getElementById('chart-meta');
 
   if (!PAYLOAD.labels.length || datasets.every(d => d.data.every(v => v == null))) {
-    ctx.parentElement.innerHTML = '<div class="empty">First snapshot pending — chart will populate after tomorrow morning&rsquo;s run.</div>';
-    meta.textContent = '';
-    return;
+    ctx.parentElement.innerHTML = '<div class="empty">First snapshot pending — chart will populate after the next scheduled run.</div>';
+    meta.textContent = ''; return;
   }
   meta.textContent = `${PAYLOAD.labels.length} snapshot${PAYLOAD.labels.length===1?'':'s'} · ${PAYLOAD.labels[0]} → ${PAYLOAD.labels[PAYLOAD.labels.length-1]}`;
 
@@ -615,19 +623,14 @@ function renderChart() {
     type: 'line',
     data: { labels: PAYLOAD.labels, datasets },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { boxWidth: 8, boxHeight: 8, usePointStyle: true, padding: 16, font: { size: 11 } }
-        },
-        tooltip: {
-          backgroundColor: '#1b1814', titleColor: '#faf6ee', bodyColor: '#faf6ee',
+        legend: { position: 'bottom',
+          labels: { boxWidth: 8, boxHeight: 8, usePointStyle: true, padding: 14, font: { size: 11 } } },
+        tooltip: { backgroundColor: '#1b1814', titleColor: '#faf6ee', bodyColor: '#faf6ee',
           padding: 10, cornerRadius: 4, displayColors: true, boxPadding: 4,
-          callbacks: { label: (c) => `${c.dataset.label}: S$${c.parsed.y}` }
-        }
+          callbacks: { label: (c) => `${c.dataset.label}: S$${c.parsed.y}` } }
       },
       scales: {
         x: { grid: { color: '#ddd3bd', drawBorder: false }, ticks: { color: '#8a8273' } },
@@ -637,23 +640,28 @@ function renderChart() {
   });
 }
 
-// ---- History table ----
+// ---- History ----
 function renderHistory() {
   const rows = (PAYLOAD.rows || []).slice().sort(
-    (a,b) => b.snapshot_date.localeCompare(a.snapshot_date) || a.dest.localeCompare(b.dest) || a.metric.localeCompare(b.metric)
+    (a,b) => b.snapshot_date.localeCompare(a.snapshot_date)
+          || a.dest.localeCompare(b.dest)
+          || a.metric.localeCompare(b.metric)
+          || ((a.category||'priority').localeCompare(b.category||'priority'))
   );
   document.getElementById('row-count').textContent = rows.length;
   const root = document.getElementById('history-body');
   if (!rows.length) { root.innerHTML = '<div class="empty">History will appear after the first scrape runs.</div>'; return; }
   let html = `<table class="tbl"><thead><tr>
-    <th>Date</th><th>Route</th><th>Metric</th><th>SGD</th>
+    <th>Date</th><th>Route</th><th>Metric</th><th>Cat.</th><th>SGD</th>
     <th>Depart</th><th>Return</th><th>Airline</th><th>Note</th>
   </tr></thead><tbody>`;
   for (const r of rows) {
-    html += `<tr>
+    const cat = r.category || 'priority';
+    html += `<tr class="row-${cat}">
       <td>${r.snapshot_date}</td>
       <td>${DEST_LABEL[r.dest] || r.dest}</td>
       <td>${r.metric.replace(/_/g,' ')}</td>
+      <td><span class="cat-badge ${cat}">${cat}</span></td>
       <td class="num">S$${r.price_sgd}</td>
       <td>${r.dep_date || '—'}</td>
       <td>${r.ret_date || '—'}</td>
@@ -673,6 +681,7 @@ document.querySelectorAll('.tab').forEach(btn => {
     renderChart();
   });
 });
+document.getElementById('show-ref').addEventListener('change', e => { showRef = e.target.checked; renderChart(); });
 
 renderKPIs();
 renderTrends();
