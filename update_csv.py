@@ -1,11 +1,16 @@
 """
 Reads three Trip.com markdown text files and appends today's price snapshot
-to flight_prices.csv. For each destination we record up to two metrics:
+to flight_prices.csv. STRICT FILTER — only Singapore Airlines and Scoot fares
+are recorded. If neither carrier shows a matching fare for a route on a given
+day, the row is simply omitted (no fallback to other carriers).
 
-    one_way_june      = cheapest June 2026 one-way fare on SIA/Scoot
-                        (from Trip.com's "Month: From S$ X" monthly summary)
-    round_trip_june   = cheapest round-trip June 2026 SIA/Scoot card,
-                        return 3-5 days after departure (with relaxed fallback)
+Metrics per destination per day:
+
+    one_way_june    = cheapest June 2026 one-way fare on SIA/Scoot
+                      (from Trip.com's "Month: From S$ X" monthly summary)
+    round_trip_june = cheapest SIA/Scoot round-trip card, June departure,
+                      return 3-5 days later. Fallback within SIA/Scoot only:
+                      relaxes the month + stay-length filter, never the airline.
 
 Usage:
     python update_csv.py <bkk.md> <hkt.md> <tpe.md>
@@ -19,11 +24,7 @@ import os
 import sys
 from datetime import datetime, timezone
 
-from flight_parser import (
-    summarize,
-    best_one_way_june_sia_scoot,
-    best_one_way_june_any,
-)
+from flight_parser import summarize
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 CSV_PATH = os.path.join(ROOT, "flight_prices.csv")
@@ -47,11 +48,8 @@ def append_row(path: str, row: dict) -> None:
 
 
 def build_one_way_row(date_str: str, dest: str, summary: dict) -> dict | None:
+    """SIA/Scoot only, June only. No fallback to other carriers."""
     best = summary["cheapest_one_way_june_sia_scoot"]
-    note = "sia_scoot"
-    if not best:
-        best = best_one_way_june_any(summary["monthly_one_way"])
-        note = "fallback_any_airline"
     if not best:
         return None
     return {
@@ -61,29 +59,19 @@ def build_one_way_row(date_str: str, dest: str, summary: dict) -> dict | None:
         "ret_date": "",
         "airline_out": best["airline"],
         "airline_in": "",
-        "note": note,
+        "note": "sia_scoot",
     }
 
 
 def build_round_trip_row(date_str: str, dest: str, summary: dict) -> dict | None:
+    """SIA/Scoot only. Prefer June 3-5 night; fallback to any SIA/Scoot RT
+    (still strictly SIA/Scoot — never other carriers)."""
     best = summary["cheapest_rt_june_3to5n_sia_scoot"]
     note = "june_3to5n_sia_scoot"
     if not best:
         best = summary["cheapest_rt_any_sia_scoot"]
         note = "fallback_any_month_sia_scoot"
     if not best:
-        # Last resort: headline round-trip (any airline)
-        h = summary["headline_round_trip"]
-        if h:
-            return {
-                "snapshot_date": date_str, "dest": dest, "metric": "round_trip_june",
-                "price_sgd": h["price_sgd"],
-                "dep_date": h.get("dep_date") or "",
-                "ret_date": h.get("ret_date") or "",
-                "airline_out": h["airline"],
-                "airline_in": h["airline"],
-                "note": "fallback_headline_any_airline",
-            }
         return None
     return {
         "snapshot_date": date_str, "dest": dest, "metric": "round_trip_june",
