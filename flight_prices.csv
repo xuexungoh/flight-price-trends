@@ -6,3 +6,6 @@ snapshot_date,dest,metric,category,price_sgd,dep_date,ret_date,airline_out,airli
 2026-06-02,BKK,round_trip_june,reference,157,2026-05-06,2026-05-08,Thai Lion Air,Thai Lion Air,fallback_any_airline
 2026-06-16,HKT,one_way_june,priority,104,2026-06-28,,Scoot,,sia_scoot
 2026-06-16,TPE,one_way_june,priority,175,2026-06-02,,Scoot,,sia_scoot
+2026-06-18,BKK,one_way_june,priority,155,2026-06-28,,Singapore Airlines,,sia_scoot
+2026-06-18,HKT,one_way_june,priority,104,2026-06-28,,Scoot,,sia_scoot
+2026-06-18,TPE,one_way_june,priority,175,2026-06-02,,Scoot,,sia_scoot
