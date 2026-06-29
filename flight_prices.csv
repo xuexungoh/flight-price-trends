@@ -18,3 +18,9 @@ snapshot_date,dest,metric,category,price_sgd,dep_date,ret_date,airline_out,airli
 2026-06-24,BKK,one_way_june,priority,155,2026-06-28,,Singapore Airlines,,sia_scoot
 2026-06-24,HKT,one_way_june,priority,104,2026-06-28,,Scoot,,sia_scoot
 2026-06-24,TPE,one_way_june,priority,175,2026-06-02,,Scoot,,sia_scoot
+2026-06-25,BKK,one_way_june,priority,155,2026-06-28,,Singapore Airlines,,sia_scoot
+2026-06-25,HKT,one_way_june,priority,104,2026-06-28,,Scoot,,sia_scoot
+2026-06-25,TPE,one_way_june,priority,175,2026-06-02,,Scoot,,sia_scoot
+2026-06-29,BKK,one_way_june,priority,155,2026-06-28,,Singapore Airlines,,sia_scoot
+2026-06-29,HKT,one_way_june,priority,104,2026-06-28,,Scoot,,sia_scoot
+2026-06-29,TPE,one_way_june,priority,175,2026-06-02,,Scoot,,sia_scoot
